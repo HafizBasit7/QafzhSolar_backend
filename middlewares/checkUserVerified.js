@@ -18,14 +18,15 @@ const checkUserVerified = async (req, res, next) => {
     return res.status(404).json({ msg: 'User not found. Please register first.' });
   }
 
-  if (user.verified) {
+  if (user.isVerified) {
     req.user = user;
     req.productData = productData;
     return next();
   }
+
   const otp = 112233;
   const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
-  if (!user.verified) {
+  if (!user.isVerified) {
     user.otp = otp;
     user.otpExpires = otpExpires;
     await user.save();
@@ -37,12 +38,6 @@ const checkUserVerified = async (req, res, next) => {
     })
   }
 
-  // const otp = 112233;
-  // const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
-
-  // user.otp = otp;
-  // user.otpExpires = otpExpires;
-  // await user.save();
 
 };
 

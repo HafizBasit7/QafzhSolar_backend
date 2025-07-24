@@ -278,6 +278,9 @@ router.get('/filters-product', filtersProduct);
 // rote filter ads
 router.get('/filters-ads', filtersAds);
 
+// route to get engineer By ID;
+
+router.get('/getOneEngineer/:id',engineerController.getEngineerById);
 
 
 

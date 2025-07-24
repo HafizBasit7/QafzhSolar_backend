@@ -1,36 +1,47 @@
 const Product = require('../models/product');
 const User = require('../models/auth');
+const {uploadToCloud} = require("../utils/uploadToCloud");
 
 // Called when user is already verified
 const postProduct = async (req, res) => {
-  const user = req.user;
-  const productData = req.body;
+  try {
+    const user = req.user;
+    const productData = req.body;
+    const files = req.files;
 
+    let imageUrls = [];
 
-  let imageUrl = null;
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const uploadRes = await uploadToCloud(file.buffer, file.originalname, file.mimetype);
 
-  if (req.file) {
-    const uploadRes = await uploadToCloud(req.file.buffer, req.file.originalname, req.file.mimetype);
+        if (!uploadRes.success) {
+          return res.status(500).json({ msg: 'Image upload failed', error: uploadRes.error });
+        }
 
-    if (!uploadRes.success) {
-      return res.status(500).json({ msg: 'Image upload failed', error: uploadRes.error });
+        imageUrls.push(uploadRes.fileUrl);
+      }
     }
 
-    imageUrl = uploadRes.fileUrl;
+    const product = new Product({
+      ...productData,
+      images: imageUrls,
+      userId: user._id
+    });
+
+    await product.save();
+
+    res.status(201).json({
+      msg: 'Product posted successfully',
+      product
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Failed to post product', error: err.message });
   }
-  const product = new Product({
-    ...productData,
-    images: imageUrl,
-    userId: user._id,
-  });
-
-  await product.save();
-
-  res.status(201).json({
-    msg: 'Product posted successfully',
-    product
-  });
 };
+;
+
 
 // Called after user submits OTP
 const verifyOtpAndPostProduct = async (req, res) => {

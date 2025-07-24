@@ -94,12 +94,12 @@ const engineerSchema = new mongoose.Schema({
     certifications: [{
         name: {
             type: String,
-            required: true,
+            
             trim: true
         },
         issuedBy: {
             type: String,
-            required: true,
+           
             trim: true
         },
         issuedDate: {
@@ -208,7 +208,6 @@ const engineerSchema = new mongoose.Schema({
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true
     },
     notes: {
         type: String,

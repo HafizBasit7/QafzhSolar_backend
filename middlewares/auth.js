@@ -64,9 +64,9 @@ const authToken = catchAsync(async (req, res, next) => {
     }
     
     // 4) Check if admin changed password after the token was issued
-    if (currentUser.changedPasswordAfter && currentUser.changedPasswordAfter(decoded.iat)) {
-      return next(new AppError('Admin recently changed password! Please log in again.', 401));
-    }
+    // if (currentUser.changedPasswordAfter && currentUser.changedPasswordAfter(decoded.iat)) {
+    //   return next(new AppError('Admin recently changed password! Please log in again.', 401));
+    // }
   } else {
     currentUser = await User.findById(decoded.id).select('+isActive');
     if (!currentUser || !currentUser.isActive) {

@@ -103,11 +103,49 @@ const toggleEngineerStatus = async (req, res) => {
     }
 };
 
+const getEngineerById = async (req, res) => {
+    try {
+        const {id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                status: 400,
+                message: "Invalid engineer ID"
+            });
+        }
+
+        const engineer = await Engineer.findById();
+
+        if (!engineer) {
+            return res.status(404).json({
+                status: 404,
+                message: "Engineer not found"
+            });
+        }
+
+        res.status(200).json({
+            status: 200,
+            data: engineer,
+            message: "Engineer fetched successfully"
+        });
+
+    } catch (error) {
+        console.error("Error fetching engineer by ID:", error);
+        res.status(500).json({
+            status: 500,
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+};
+
+
 const engineerController = {
     addEngineer,
     getAllEngineers,
     updateEngineer,
     deleteEngineer,
     toggleEngineerStatus,
+    getEngineerById,
 };
 module.exports = engineerController;
