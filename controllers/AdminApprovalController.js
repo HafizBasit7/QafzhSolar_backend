@@ -16,7 +16,7 @@ const getProducts = async (req, res) => {
 // Admin: Get all pending products
 const getPendingProducts = async (req, res) => {
     try {
-        const pending = await Product.find({ status: 'Pending' }).sort({ createdAt: -1 });
+        const pending = await Product.find({ status: 'pending' }).sort({ createdAt: -1 });
         res.status(200).json({
             status: 200,
             data: pending,
@@ -33,7 +33,7 @@ const updateProductStatus = async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
 
-        if (!['Approved', 'Rejected'].includes(status)) {
+        if (!['approved', 'rejected'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
         }
 

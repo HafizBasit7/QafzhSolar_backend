@@ -733,4 +733,12 @@ router.post('/verfiry-otp', productController.verifyOtp)
  */
 router.get('/browse-products', productController.browseProducts);
 
+// update product
+
+router.patch('/update-product/:id', productController.updateProduct);
+
+// delete product
+
+router.delete('/delete-product/:id', productController.deleteProduct);
+
 module.exports = router;

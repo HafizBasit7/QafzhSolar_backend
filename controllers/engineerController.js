@@ -4,30 +4,86 @@ const Engineer = require('../models/engineer');
 // Add engineer
 const addEngineer = async (req, res) => {
     try {
-        const { name, phone, services, governorate, city } = req.body;
+        const {
+            name,
+            phone,
+            whatsappPhone,
+            email,
+            services,
+            specializations,
+            governorate,
+            city,
+            address,
+            experience,
+            certifications,
+            rating,
+            profileImageUrl,
+            portfolioImages,
+            availability,
+            pricing,
+            isVerified,
+            isActive,
+            isFeatured,
+            views,
+            contactsCount,
+            addedBy,
+            notes
+        } = req.body;
 
+        // Validate required fields
         if (!name || !phone || !services || !governorate || !city) {
-            return res.status(400).json({ message: 'All fields are required' });
+            return res.status(400).json({ message: 'Name, phone, services, governorate, and city are required' });
         }
 
+        // Check for duplicate phone number
         const existingEngineer = await Engineer.findOne({ phone });
-
         if (existingEngineer) {
             return res.status(400).json({
                 status: 400,
-                data: [],
-                message: "already exist"
-            })
+                message: 'Engineer with this phone number already exists'
+            });
         }
 
-        const newEngineer = new Engineer({ name, phone, services, governorate, city });
+        // Construct new engineer object with full schema support
+        const newEngineer = new Engineer({
+            name,
+            phone,
+            whatsappPhone,
+            email,
+            services,
+            specializations,
+            governorate,
+            city,
+            address,
+            experience,
+            certifications,
+            rating,
+            profileImageUrl,
+            portfolioImages,
+            availability,
+            pricing,
+            isVerified,
+            isActive,
+            isFeatured,
+            views,
+            contactsCount,
+            addedBy,
+            notes
+        });
+
+        // Save to database
         await newEngineer.save();
 
-        res.status(201).json({ message: 'Engineer added successfully', engineer: newEngineer });
+        res.status(201).json({
+            message: 'Engineer added successfully',
+            engineer: newEngineer
+        });
+
     } catch (error) {
+        console.error("Add Engineer Error:", error);
         res.status(500).json({
-            message: error.message,
-            error: error
+            message: 'Failed to add engineer',
+            error: error.message
         });
     }
 };

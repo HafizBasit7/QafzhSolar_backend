@@ -1,7 +1,5 @@
 const Product = require('../models/product');
 const User = require('../models/auth');
-const {uploadToCloud} = require("../utils/uploadToCloud");
-
 // Called when user is already verified
 const postProduct = async (req, res) => {
   try {
@@ -29,27 +27,83 @@ const postProduct = async (req, res) => {
 
 // Called after user submits OTP
 const verifyOtp = async (req, res) => {
-  const {  otp } = req.body;
+  const { otp } = req.body;
   console.log(req.body);
 
 
-  if (!otp ) {
+  if (!otp) {
     return res.status(400).json({ msg: ' OTP required' });
   }
-  const user = await User.findOne({ phone});
+  const user = await User.findOne({ phone });
   if (!user) return res.status(404).json({ msg: 'User not found' });
 
   if (user.otp !== otp || user.otpExpires < Date.now()) {
     return res.status(400).json({ msg: 'Invalid or expired OTP' });
   }
 
-  user.isVerified= true;
+  user.isVerified = true;
   user.otp = null;
   user.otpExpires = null;
   await user.save()
   res.status(201).json({
     msg: 'OTP verified  successfully',
   });
+};
+
+// updateProduct
+const updateProduct = async (req, res) => {
+  try {
+    const user = req.user;
+    const productId = req.params.id;
+    const updatedData = req.body;
+
+    // Ensure product belongs to the current user
+    const product = await Product.findOne({ _id: productId, userId: user._id });
+
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found or unauthorized" });
+    }
+
+    // Update the product
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { $set: updatedData },
+      { new: true }
+    );
+
+    res.status(200).json({
+      msg: "Product updated successfully",
+      updatedProduct
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Failed to update product", error: err.message });
+  }
+};
+
+//delete Product
+
+const deleteProduct = async (req, res) => {
+  try {
+    const user = req.user;
+    const productId = req.params.id;
+
+    // Ensure product belongs to the current user
+    const product = await Product.findOne({ _id: productId, userId: user._id });
+
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found or unauthorized" });
+    }
+
+    await Product.findByIdAndDelete(productId);
+
+    res.status(200).json({ msg: "Product deleted successfully" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Failed to delete product", error: err.message });
+  }
 };
 
 // brower Products 
@@ -130,12 +184,50 @@ const browseProducts = async (req, res) => {
 //   }
 // };
 
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    if (!id) {
+      return res.status(400).json({
+        status: 400,
+        message: "Invalid product ID"
+      });
+    }
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        status: 404,
+        message: "product not found"
+      });
+    }
+
+    res.status(200).json({
+      status: 200,
+      data: product,
+      message: "product fetched successfully"
+    });
+
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    res.status(500).json({
+      status: 500,
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+};
 const productController = {
   postProduct,
   verifyOtp,
   // browseFiltersProducts,
-  browseProducts
+  browseProducts,
+  updateProduct,
+  deleteProduct,
+  getProductById
+
 };
 
 module.exports = productController;

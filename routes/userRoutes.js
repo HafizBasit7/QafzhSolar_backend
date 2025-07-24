@@ -258,7 +258,7 @@ router.get('/getAllShops', shopController.getAllShops);
 router.get('/getAllEngineer', engineerController.getAllEngineers);
 
 // user route to get Ads
-router.get('/getAllAds',adsController.getAllAds);
+router.get('/getAllAds', adsController.getAllAds);
 
 //  user routes to get products 
 router.get('/browse-products', productController.browseProducts);
@@ -278,9 +278,14 @@ router.get('/filters-product', filtersProduct);
 // rote filter ads
 router.get('/filters-ads', filtersAds);
 
-// route to get engineer By ID;
+// route to get product by id
+router.get('/getOneProduct/:id', productController.getProductById);
 
-router.get('/getOneEngineer/:id',engineerController.getEngineerById);
+// route to get engineer By ID;
+router.get('/getOneEngineer/:id', engineerController.getEngineerById);
+
+// route to get shop by Id:
+router.get('/getOneShop/:id', shopController.getShopById);
 
 
 
