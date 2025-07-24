@@ -114,7 +114,7 @@ const getEngineerById = async (req, res) => {
             });
         }
 
-        const engineer = await Engineer.findById();
+        const engineer = await Engineer.findById(id);
 
         if (!engineer) {
             return res.status(404).json({

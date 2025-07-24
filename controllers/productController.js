@@ -7,25 +7,9 @@ const postProduct = async (req, res) => {
   try {
     const user = req.user;
     const productData = req.body;
-    const files = req.files;
-
-    let imageUrls = [];
-
-    if (files && files.length > 0) {
-      for (const file of files) {
-        const uploadRes = await uploadToCloud(file.buffer, file.originalname, file.mimetype);
-
-        if (!uploadRes.success) {
-          return res.status(500).json({ msg: 'Image upload failed', error: uploadRes.error });
-        }
-
-        imageUrls.push(uploadRes.fileUrl);
-      }
-    }
 
     const product = new Product({
       ...productData,
-      images: imageUrls,
       userId: user._id
     });
 
@@ -44,25 +28,13 @@ const postProduct = async (req, res) => {
 
 
 // Called after user submits OTP
-const verifyOtpAndPostProduct = async (req, res) => {
-  const { phone, otp, productData } = req.body;
+const verifyOtp = async (req, res) => {
+  const {  otp } = req.body;
   console.log(req.body);
 
 
-  if (!phone || !otp || !productData) {
-    return res.status(400).json({ msg: 'phone, OTP, and product data required' });
-  }
-
-  let imageUrl = null;
-
-  if (req.file) {
-    const uploadRes = await uploadToCloud(req.file.buffer, req.file.originalname, req.file.mimetype);
-
-    if (!uploadRes.success) {
-      return res.status(500).json({ msg: 'Image upload failed', error: uploadRes.error });
-    }
-
-    imageUrl = uploadRes.fileUrl;
+  if (!otp ) {
+    return res.status(400).json({ msg: ' OTP required' });
   }
   const user = await User.findOne({ phone});
   if (!user) return res.status(404).json({ msg: 'User not found' });
@@ -71,22 +43,12 @@ const verifyOtpAndPostProduct = async (req, res) => {
     return res.status(400).json({ msg: 'Invalid or expired OTP' });
   }
 
-  user.verified = true;
+  user.isVerified= true;
   user.otp = null;
   user.otpExpires = null;
-  await user.save();
-
-  const newProduct = new Product({
-    ...productData,
-    images: imageUrl,
-    userId: user._id,
-  });
-
-  await newProduct.save();
-
+  await user.save()
   res.status(201).json({
-    msg: 'OTP verified and product posted successfully',
-    product: newProduct,
+    msg: 'OTP verified  successfully',
   });
 };
 
@@ -171,7 +133,7 @@ const browseProducts = async (req, res) => {
 
 const productController = {
   postProduct,
-  verifyOtpAndPostProduct,
+  verifyOtp,
   // browseFiltersProducts,
   browseProducts
 };

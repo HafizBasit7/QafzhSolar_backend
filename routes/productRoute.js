@@ -1,11 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const uploads = multer({storage});
-
-
 const { checkUserVerified } = require('../middlewares/checkUserVerified')
 const productController = require('../controllers/productController')
 
@@ -308,7 +303,7 @@ const productController = require('../controllers/productController')
  *               status: "fail"
  *               message: "Request payload too large. Reduce number of images or description length."
  */
-router.post('/post', uploads.array('images'), checkUserVerified, productController.postProduct);
+router.post('/post', checkUserVerified, productController.postProduct);
 
 /**
  * @swagger
@@ -491,7 +486,7 @@ router.post('/post', uploads.array('images'), checkUserVerified, productControll
  *                   status: "fail"
  *                   message: "At least one valid image URL is required"
  */
-router.post('/verfiry-otp-postProduct', productController.verifyOtpAndPostProduct)
+router.post('/verfiry-otp', productController.verifyOtp)
 
 /**
  * @swagger
