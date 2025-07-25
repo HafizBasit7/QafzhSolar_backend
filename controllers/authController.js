@@ -2,17 +2,27 @@ const User = require('../models/auth');
 const { AppError } = require('../middlewares/errorHandler');
 const { catchAsync } = require('../middlewares/errorHandler');
 const { createSendToken } = require('../middlewares/auth');
-
+const bcrypt = require('bcrypt');
+const generateToken = require('../utils/generateToken');
 // Register user with phone number only (as per scope)
 const registerUser = catchAsync(async (req, res, next) => {
-  const { phone } = req.body;
+  const { name, phone , password, profileImageUrl} = req.body;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
 
+if (!passwordRegex.test(password)) {
+  return next(new AppError(
+    'Password must be at least 6 characters long and include uppercase, lowercase, number, and special character.',
+    400
+  ));
+}
   // Check if user already exists
   const existingUser = await User.findOne({ phone });
   if (existingUser && existingUser.isVerified) {
     return next(new AppError('User already exists with this phone number. Please login instead.', 409));
   }
+ // hash password 
 
+ const hashPassword = await bcrypt.hash(password,8);
   let user;
   if (existingUser && !existingUser.isVerified) {
     // User exists but not verified, resend OTP
@@ -21,7 +31,7 @@ const registerUser = catchAsync(async (req, res, next) => {
     await user.save();
   } else {
     // Create new user
-    user = new User({ phone });
+    user = new User({ phone ,name,password:hashPassword,profileImageUrl});
     user.generateOTP();
     await user.save();
   }
@@ -38,7 +48,9 @@ const registerUser = catchAsync(async (req, res, next) => {
 
 // Verify OTP and complete registration
 const verifyOTP = catchAsync(async (req, res, next) => {
-  const { phone, otp } = req.body;
+  const {phone} = req.params;
+  console.log(phone)
+  const { otp } = req.body;
 
   // Find user by phone
   const user = await User.findOne({ phone });
@@ -60,6 +72,45 @@ const verifyOTP = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+// login
+
+const login = async(req,res)=>{
+  try {
+    const {phone,password} = req.body;
+
+    const validUser = await User.findOne({phone});
+    if(!validUser){
+    return res.status(404).json({
+     status:404,
+      data:[],
+      message:"user not found"
+      })
+      }
+
+      const comparePassword = await bcrypt.compare(password,validUser.password);
+
+      if(!comparePassword){
+        return res.status(404).json({
+          status:404,
+          data:[],
+          message:"invalid password"
+        })
+      }
+
+      const token  = generateToken(validUser);
+
+ 
+      return res.status(200).json({
+        status:200,
+        data:{validUser,token},
+        message:"login successful"
+      })
+
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
 // Request new OTP (for existing users)
 const requestOTP = catchAsync(async (req, res, next) => {
   const { phone } = req.body;
@@ -194,5 +245,6 @@ module.exports = {
   getProfile,
   logout,
   deleteAccount,
-  checkPhone
+  checkPhone,
+  login
 };

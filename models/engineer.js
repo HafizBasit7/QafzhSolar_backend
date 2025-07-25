@@ -109,19 +109,6 @@ const engineerSchema = new mongoose.Schema({
             type: Date
         }
     }],
-    rating: {
-        average: {
-            type: Number,
-            default: 0,
-            min: 0,
-            max: 5
-        },
-        count: {
-            type: Number,
-            default: 0,
-            min: 0
-        }
-    },
     profileImageUrl: {
         type: String,
         default: '',

@@ -34,7 +34,8 @@ const validateUserRegistration = (req, res, next) => {
 
 // OTP verification validation
 const validateOTPVerification = (req, res, next) => {
-  const { phone, otp } = req.body;
+  const {phone} = req.params
+  const { otp } = req.body;
 
   if (!phone || !otp) {
     return next(new AppError('Phone number and OTP are required', 400));

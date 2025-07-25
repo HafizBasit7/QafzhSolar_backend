@@ -5,50 +5,32 @@ const { uploadToCloud } = require('../utils/uploadToCloud');
 
 // Create new ad with image
 const postAds = async (req, res) => {
-    try {
-        let imageUrl = '';
-        if (req.file) {
-            const uploaded = await uploadToCloud(req.file.buffer, req.file.originalname, req.file.mimetype);
-            if (!uploaded.success) {
-                return res.status(500).json({ message: 'Image upload failed', error: uploaded.error });
-            }
-            imageUrl = uploaded.fileUrl;
-        }
-
-        const ad = new Ads({
-            ...req.body,
-            imageUrl,
-        });
-
-        await ad.save();
-        res.status(201).json({ message: 'Ad created', ad });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to create ad', error });
-    }
+  try {
+    const ad = new Ads(req.body);
+    await ad.save();
+    res.status(201).json({ message: 'Ad created', ad });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create ad', error: error.message });
+  }
 };
+
 
 // Update ad with optional new image
 const updateAd = async (req, res) => {
-    try {
-        const { id } = req.params;
-        let updateData = { ...req.body };
+  try {
+    const { id } = req.params;
+    const updated = await Ads.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
 
-        if (req.file) {
-            const uploaded = await uploadToCloud(req.file.buffer, req.file.originalname, req.file.mimetype);
-            if (!uploaded.success) {
-                return res.status(500).json({ message: 'Image upload failed', error: uploaded.error });
-            }
-            updateData.imageUrl = uploaded.fileUrl;
-        }
-
-        const updated = await Ads.findByIdAndUpdate(id, updateData, { new: true });
-        if (!updated) return res.status(404).json({ message: 'Ad not found' });
-
-        res.status(200).json({ message: 'Ad updated', ad: updated });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to update ad', error });
+    if (!updated) {
+      return res.status(404).json({ message: 'Ad not found' });
     }
+
+    res.status(200).json({ message: 'Ad updated', ad: updated });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update ad', error: error.message });
+  }
 };
+
 ;
 
 // Get all ads (admin or public)

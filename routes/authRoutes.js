@@ -142,7 +142,7 @@ router.post('/register', authLimiter, validateUserRegistration, authController.r
  *       429:
  *         $ref: '#/components/responses/RateLimitError'
  */
-router.post('/verify-otp', authLimiter, validateOTPVerification, authController.verifyOTP);
+router.post('/verify-otp/:phone', authLimiter, validateOTPVerification, authController.verifyOTP);
 
 /**
  * @swagger
@@ -248,6 +248,7 @@ router.post('/request-otp', authLimiter, validateUserRegistration, authControlle
  *               message: "Invalid phone number format"
  */
 router.get('/check-phone', authController.checkPhone);
+router.post('/login',authLimiter,authController.login);
 
 // Protected routes (require authentication)
 router.use(authToken); // All routes below require authentication

@@ -16,7 +16,6 @@ const addEngineer = async (req, res) => {
             address,
             experience,
             certifications,
-            rating,
             profileImageUrl,
             portfolioImages,
             availability,
@@ -26,9 +25,9 @@ const addEngineer = async (req, res) => {
             isFeatured,
             views,
             contactsCount,
-            addedBy,
             notes
         } = req.body;
+        const{addedBy} =req.user?._id
 
         // Validate required fields
         if (!name || !phone || !services || !governorate || !city) {
@@ -57,7 +56,6 @@ const addEngineer = async (req, res) => {
             address,
             experience,
             certifications,
-            rating,
             profileImageUrl,
             portfolioImages,
             availability,

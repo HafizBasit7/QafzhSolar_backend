@@ -27,7 +27,7 @@ const postProduct = async (req, res) => {
 
 // Called after user submits OTP
 const verifyOtp = async (req, res) => {
-  const { otp } = req.body;
+  const {phone, otp } = req.body;
   console.log(req.body);
 
 

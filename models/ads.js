@@ -106,18 +106,6 @@ const adSchema = new mongoose.Schema({
     },
     index: true
   },
-  impressions: {
-    count: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
-    limit: {
-      type: Number,
-      default: null,
-      min: 0
-    }
-  },
   clicks: {
     count: {
       type: Number,
@@ -233,22 +221,21 @@ adSchema.virtual('isRunning').get(function() {
   const now = new Date();
   const isTimeValid = now >= this.startDate && (!this.endDate || now <= this.endDate);
   const isWithinLimits = 
-    (!this.impressions.limit || this.impressions.count < this.impressions.limit) &&
     (!this.clicks.limit || this.clicks.count < this.clicks.limit);
   
   return this.isActive && this.isApproved && isTimeValid && isWithinLimits;
 });
 
 // Virtual to calculate click-through rate
-adSchema.virtual('clickThroughRate').get(function() {
-  return this.impressions.count > 0 ? (this.clicks.count / this.impressions.count) * 100 : 0;
-});
+// adSchema.virtual('clickThroughRate').get(function() {
+//   return this.impressions.count > 0 ? (this.clicks.count / this.impressions.count) * 100 : 0;
+// });
 
-// Instance method to record impression
-adSchema.methods.recordImpression = function() {
-  this.impressions.count += 1;
-  return this.save();
-};
+// // Instance method to record impression
+// adSchema.methods.recordImpression = function() {
+//   this.impressions.count += 1;
+//   return this.save();
+// };
 
 // Instance method to record click
 adSchema.methods.recordClick = function() {
@@ -289,10 +276,6 @@ adSchema.statics.findActiveForPlacement = function(placement, userProfile = {}) 
       { endDate: { $gte: now } }
     ],
     $or: [
-      { 'impressions.limit': null },
-      { $expr: { $lt: ['$impressions.count', '$impressions.limit'] } }
-    ],
-    $or: [
       { 'clicks.limit': null },
       { $expr: { $lt: ['$clicks.count', '$clicks.limit'] } }
     ]
@@ -323,7 +306,6 @@ adSchema.statics.getAnalytics = function(filters = {}) {
       $group: {
         _id: null,
         totalAds: { $sum: 1 },
-        totalImpressions: { $sum: '$impressions.count' },
         totalClicks: { $sum: '$clicks.count' },
         avgCTR: { $avg: '$analytics.ctr' },
         totalBudgetSpent: { $sum: '$budget.spent' }

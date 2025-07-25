@@ -14,6 +14,12 @@ const userSchema = new mongoose.Schema({
     trim: true,
     match: [/^[0-9+()-\s]{10,15}$/, 'Please enter a valid phone number']
   },
+  password: {
+  type: String,
+  required: [true, 'Please enter a valid password'],
+  trim: true,
+},
+
   profileImageUrl: {
     type: String,
     default: '',
