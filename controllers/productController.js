@@ -219,6 +219,48 @@ const getProductById = async (req, res) => {
     });
   }
 };
+
+// controllers/productController.js
+const getUserProducts = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { page = 1, limit = 10 } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({
+        status: 400,
+        message: "User ID is required"
+      });
+    }
+
+    const skip = (page - 1) * limit;
+    
+    const [products, total] = await Promise.all([
+      Product.find({ userId })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      Product.countDocuments({ userId })
+    ]);
+
+    res.status(200).json({
+      status: 200,
+      data: products,
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(total / limit),
+      total,
+      message: "User products fetched successfully"
+    });
+
+  } catch (error) {
+    console.error("Error fetching user products:", error);
+    res.status(500).json({
+      status: 500,
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+};
 const productController = {
   postProduct,
   verifyOtp,
@@ -226,7 +268,8 @@ const productController = {
   browseProducts,
   updateProduct,
   deleteProduct,
-  getProductById
+  getProductById,
+  getUserProducts 
 
 };
 

@@ -733,6 +733,8 @@ router.post('/verfiry-otp', productController.verifyOtp)
  */
 router.get('/browse-products', productController.browseProducts);
 
+router.get('/user-products/:userId', productController.getUserProducts); // Add this
+
 // update product
 
 router.patch('/update-product/:id', productController.updateProduct);

@@ -112,13 +112,13 @@ const validateProductCreation = (req, res, next) => {
   }
 
   // Validate images if provided
-  if (images && Array.isArray(images)) {
-    for (let i = 0; i < images.length; i++) {
-      if (!isValidUrl(images[i])) {
-        return next(new AppError(`Image ${i + 1} must be a valid URL`, 400));
-      }
-    }
-  }
+  // if (images && Array.isArray(images)) {
+  //   for (let i = 0; i < images.length; i++) {
+  //     if (!isValidUrl(images[i])) {
+  //       return next(new AppError(`Image ${i + 1} must be a valid URL`, 400));
+  //     }
+  //   }
+  // }
 
   next();
 };

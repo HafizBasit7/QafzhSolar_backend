@@ -74,43 +74,38 @@ const verifyOTP = catchAsync(async (req, res, next) => {
 
 // login
 
-const login = async(req,res)=>{
+const login = async (req, res) => {
   try {
-    const {phone,password} = req.body;
+    const { phone } = req.body;
 
-    const validUser = await User.findOne({phone});
-    if(!validUser){
-    return res.status(404).json({
-     status:404,
-      data:[],
-      message:"user not found"
-      })
-      }
+    const validUser = await User.findOne({ phone });
 
-      const comparePassword = await bcrypt.compare(password,validUser.password);
+    if (!validUser) {
+      return res.status(404).json({
+        status: 404,
+        data: [],
+        message: "User not found",
+      });
+    }
 
-      if(!comparePassword){
-        return res.status(404).json({
-          status:404,
-          data:[],
-          message:"invalid password"
-        })
-      }
+    // Generate token after successful phone match
+    const token = generateToken(validUser);
 
-      const token  = generateToken(validUser);
-
- 
-      return res.status(200).json({
-        status:200,
-        data:{validUser,token},
-        message:"login successful"
-      })
-
-    
+    return res.status(200).json({
+      status: 200,
+      data: { validUser, token },
+      message: "Login successful",
+    });
   } catch (error) {
-    console.log(error)
+    console.error(error);
+    return res.status(500).json({
+      status: 500,
+      message: "Internal Server Error",
+    });
   }
-}
+};
+
+
 // Request new OTP (for existing users)
 const requestOTP = catchAsync(async (req, res, next) => {
   const { phone } = req.body;
