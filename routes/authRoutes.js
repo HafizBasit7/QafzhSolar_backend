@@ -367,7 +367,7 @@ router.get('/profile', authController.getProfile);
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.put('/profile', validateUserProfileUpdate, authController.updateProfile);
+router.put('/update-profile', validateUserProfileUpdate, authController.updateProfile);
 
 /**
  * @swagger
