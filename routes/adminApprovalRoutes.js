@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const adminApprovalController = require('../controllers/adminApprovalController');
+const adminApprovalController = require('../controllers/AdminApprovalController');
 const { authToken, isAdmin } = require('../middlewares/auth');
 
 /**
