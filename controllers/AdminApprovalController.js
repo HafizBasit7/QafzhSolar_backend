@@ -13,7 +13,7 @@ const getProducts = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 }
-// Admin: Get all pending products
+// Admin: Get all pending productss
 const getPendingProducts = async (req, res) => {
     try {
         const pending = await Product.find({ status: 'pending' }).sort({ createdAt: -1 });
