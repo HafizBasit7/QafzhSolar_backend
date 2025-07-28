@@ -224,7 +224,7 @@ const getProductById = async (req, res) => {
 const getUserProducts = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, status } = req.query;
 
     if (!userId) {
       return res.status(400).json({
@@ -235,19 +235,26 @@ const getUserProducts = async (req, res) => {
 
     const skip = (page - 1) * limit;
     
+    // Build query
+    const query = { userId };
+    if (status) {
+      query.status = status;
+    }
+    
     const [products, total] = await Promise.all([
-      Product.find({ userId })
+      Product.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(limit),
-      Product.countDocuments({ userId })
+        .limit(parseInt(limit))
+        .populate('userId', 'name phone'),
+      Product.countDocuments(query)
     ]);
 
     res.status(200).json({
       status: 200,
       data: products,
       currentPage: parseInt(page),
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / parseInt(limit)),
       total,
       message: "User products fetched successfully"
     });

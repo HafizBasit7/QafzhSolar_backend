@@ -248,7 +248,7 @@ router.post('/request-otp', authLimiter, validateUserRegistration, authControlle
  *               message: "Invalid phone number format"
  */
 router.get('/check-phone', authController.checkPhone);
-router.post('/login',authLimiter,authController.login);
+router.post('/login', authController.login); // Removed rate limiter
 
 // Protected routes (require authentication)
 router.use(authToken); // All routes below require authentication
@@ -367,7 +367,7 @@ router.get('/profile', authController.getProfile);
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.put('/update-profile', validateUserProfileUpdate, authController.updateProfile);
+router.put('/update-profile', authToken, validateUserProfileUpdate, authController.updateProfile);
 
 /**
  * @swagger

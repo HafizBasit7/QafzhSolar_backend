@@ -1,22 +1,23 @@
 const mongoose = require('mongoose');
 
 const adSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
+  title: {
+    type: String,
     required: [true, 'Ad title is required'],
     trim: true,
-    minLength: [3, 'Title must be at least 3 characters'],
-    maxLength: [200, 'Title cannot exceed 200 characters']
+    minLength: [5, 'Title must be at least 5 characters long'],
+    maxLength: [100, 'Title cannot exceed 100 characters']
   },
   description: {
     type: String,
-    default: '',
+    required: [true, 'Ad description is required'],
     trim: true,
+    minLength: [10, 'Description must be at least 10 characters long'],
     maxLength: [1000, 'Description cannot exceed 1000 characters']
   },
-  imageUrl: { 
-    type: String, 
-    required: [true, 'Image URL is required'],
+  imageUrl: {
+    type: String,
+    required: [true, 'Ad image is required'],
     validate: {
       validator: function(v) {
         return /^https?:\/\/.+/i.test(v);
@@ -24,110 +25,56 @@ const adSchema = new mongoose.Schema({
       message: 'Image must be a valid URL'
     }
   },
-  linkType: {
+  targetUrl: {
     type: String,
-    enum: {
-      values: ['internal', 'external', 'none'],
-      message: 'Invalid link type'
-    },
-    required: [true, 'Link type is required'],
-    default: 'none'
-  },
-  externalUrl: { 
-    type: String,
-    default: '',
     validate: {
       validator: function(v) {
-        // Only validate if linkType is external and URL is provided
-        if (this.linkType === 'external' && v) {
-          return /^https?:\/\/.+/i.test(v);
-        }
-        return true;
+        return !v || /^https?:\/\/.+/i.test(v);
       },
-      message: 'External URL must be a valid URL'
-    }
-  },
-  internalRoute: {
-    type: String,
-    default: '',
-    trim: true,
-    validate: {
-      validator: function(v) {
-        // Only validate if linkType is internal
-        if (this.linkType === 'internal' && !v) {
-          return false;
-        }
-        return true;
-      },
-      message: 'Internal route is required for internal links'
+      message: 'Target URL must be a valid URL'
     }
   },
   placement: {
     type: String,
-    enum: {
-      values: ['homepage', 'marketplace', 'calculator', 'engineerPage', 'offersTab', 'banner', 'sidebar'],
-      message: 'Invalid placement'
-    },
     required: [true, 'Ad placement is required'],
-    index: true
+    enum: {
+      values: ['banner', 'sidebar', 'inline', 'popup', 'header', 'footer'],
+      message: 'Placement must be one of: banner, sidebar, inline, popup, header, footer'
+    }
   },
   priority: {
     type: Number,
-    default: 0,
-    min: [0, 'Priority cannot be negative'],
-    max: [100, 'Priority cannot exceed 100']
+    default: 1,
+    min: [1, 'Priority must be at least 1'],
+    max: [10, 'Priority cannot exceed 10']
   },
-  targetAudience: {
-    type: [String],
-    enum: {
-      values: ['all', 'buyers', 'sellers', 'engineers', 'shops'],
-      message: 'Invalid target audience'
-    },
+  targetAudience: [{
+    type: String,
+    enum: ['all', 'buyers', 'sellers', 'engineers', 'shops'],
     default: ['all']
-  },
-  governorates: {
-    type: [String],
-    default: [] // Empty means all governorates
-  },
+  }],
+  governorates: [{
+    type: String,
+    trim: true
+  }],
   startDate: {
     type: Date,
-    default: Date.now,
-    index: true
+    default: Date.now
   },
   endDate: {
     type: Date,
-    default: null,
     validate: {
       validator: function(v) {
-        // End date should be after start date
         return !v || v > this.startDate;
       },
       message: 'End date must be after start date'
-    },
-    index: true
-  },
-  clicks: {
-    count: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
-    limit: {
-      type: Number,
-      default: null,
-      min: 0
     }
   },
   budget: {
     amount: {
       type: Number,
       default: 0,
-      min: 0
-    },
-    spent: {
-      type: Number,
-      default: 0,
-      min: 0
+      min: [0, 'Budget amount cannot be negative']
     },
     currency: {
       type: String,
@@ -135,76 +82,69 @@ const adSchema = new mongoose.Schema({
       default: 'YER'
     }
   },
-  isActive: { 
-    type: Boolean, 
-    default: true,
-    index: true
+  clicks: {
+    count: {
+      type: Number,
+      default: 0
+    },
+    limit: {
+      type: Number,
+      default: null
+    }
+  },
+  impressions: {
+    count: {
+      type: Number,
+      default: 0
+    },
+    limit: {
+      type: Number,
+      default: null
+    }
+  },
+  analytics: {
+    ctr: {
+      type: Number,
+      default: 0
+    },
+    conversions: {
+      type: Number,
+      default: 0
+    },
+    cost: {
+      type: Number,
+      default: 0
+    }
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   },
   isApproved: {
     type: Boolean,
-    default: true,
-    index: true
+    default: true // Changed from false to true for auto-approval
+  },
+  rejectionReason: {
+    type: String,
+    trim: true
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Admin',
-    required: true
+    required: [true, 'Creator ID is required']
   },
   approvedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Admin',
-    default: null
+    ref: 'Admin'
   },
   approvedAt: {
     type: Date,
-    default: null
-  },
-  tags: {
-    type: [String],
-    default: []
-  },
-  dimensions: {
-    width: {
-      type: Number,
-      min: 0
-    },
-    height: {
-      type: Number,
-      min: 0
-    }
-  },
-  callToAction: {
-    text: {
-      type: String,
-      default: '',
-      trim: true,
-      maxLength: [50, 'Call to action text cannot exceed 50 characters']
-    },
-    color: {
-      type: String,
-      default: '#007bff',
-      match: [/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, 'Invalid color format']
-    }
-  },
-  analytics: {
-    ctr: { // Click-through rate
-      type: Number,
-      default: 0,
-      min: 0
-    },
-    avgViewDuration: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
-    conversionRate: {
-      type: Number,
-      default: 0,
-      min: 0
-    }
+    default: Date.now // Auto-set approval date
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Create indexes for better performance

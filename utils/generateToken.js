@@ -10,7 +10,7 @@ const generateToken = (user) => {
     },
     process.env.SECRET_KEY,
     {
-      expiresIn: '1d' // Valid for 7 days
+      expiresIn: '7d' // Valid for 7 days
     }
   );
 };

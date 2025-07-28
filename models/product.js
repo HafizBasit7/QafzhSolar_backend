@@ -1,101 +1,81 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    default: null,
-    index: true
-  },
   name: {
     type: String,
     required: [true, 'Product name is required'],
     trim: true,
-    minLength: [2, 'Product name must be at least 2 characters'],
+    minLength: [3, 'Product name must be at least 3 characters long'],
     maxLength: [200, 'Product name cannot exceed 200 characters']
   },
   description: {
     type: String,
-    default: '',
     trim: true,
-    maxLength: [1000, 'Description cannot exceed 1000 characters']
+    maxLength: [2000, 'Description cannot exceed 2000 characters']
   },
   type: {
     type: String,
+    required: [true, 'Product type is required'],
     enum: {
       values: ['Inverter', 'Panel', 'Battery', 'Accessory', 'Cable', 'Controller', 'Monitor', 'Other'],
-      message: 'Invalid product type'
-    },
-    required: [true, 'Product type is required'],
-    index: true
+      message: 'Product type must be one of: Inverter, Panel, Battery, Accessory, Cable, Controller, Monitor, Other'
+    }
   },
   condition: {
     type: String,
+    required: [true, 'Product condition is required'],
     enum: {
       values: ['New', 'Used', 'Needs Repair', 'Refurbished'],
-      message: 'Invalid product condition'
-    },
-    required: [true, 'Product condition is required'],
-    index: true
+      message: 'Condition must be one of: New, Used, Needs Repair, Refurbished'
+    }
   },
   brand: {
     type: String,
-    default: 'Unknown',
     trim: true,
     maxLength: [100, 'Brand name cannot exceed 100 characters']
   },
   model: {
     type: String,
-    default: '',
     trim: true,
     maxLength: [100, 'Model cannot exceed 100 characters']
   },
   price: {
     type: Number,
     required: [true, 'Price is required'],
-    min: [0, 'Price cannot be negative'],
-    max: [999999999, 'Price is too high'],
-    index: true
+    min: [0, 'Price cannot be negative']
   },
   currency: {
     type: String,
     enum: ['YER', 'USD', 'SAR', 'EUR'],
     default: 'YER'
   },
+  isNegotiable: {
+    type: Boolean,
+    default: false
+  },
   phone: {
     type: String,
     required: [true, 'Contact phone is required'],
-    trim: true,
-    match: [/^[0-9+()-\s]{10,15}$/, 'Please enter a valid phone number']
+    trim: true
   },
   whatsappPhone: {
     type: String,
-    default: '',
-    trim: true,
-    validate: {
-      validator: function(v) {
-        return !v || /^[0-9+()-\s]{10,15}$/.test(v);
-      },
-      message: 'Please enter a valid WhatsApp phone number'
-    }
+    trim: true
   },
   governorate: {
     type: String,
     required: [true, 'Governorate is required'],
-    trim: true,
-    index: true
+    trim: true
   },
   city: {
     type: String,
     required: [true, 'City is required'],
-    trim: true,
-    index: true
+    trim: true
   },
   locationText: {
     type: String,
-    default: '',
     trim: true,
-    maxLength: [500, 'Location text cannot exceed 500 characters']
+    maxLength: [500, 'Location details cannot exceed 500 characters']
   },
   images: [{
     type: String,
@@ -107,72 +87,62 @@ const productSchema = new mongoose.Schema({
     }
   }],
   specifications: {
-    power: {
-      type: String,
-      default: ''
-    },
-    voltage: {
-      type: String,
-      default: ''
-    },
-    capacity: {
-      type: String,
-      default: ''
-    },
-    warranty: {
-      type: String,
-      default: ''
-    }
+    type: Map,
+    of: String
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'User ID is required']
   },
   status: {
     type: String,
-    enum: {
-      values: ['pending', 'approved', 'rejected', 'sold', 'inactive'],
-      message: 'Invalid status'
-    },
-    default: 'pending',
-    index: true
-  },
-  rejectionReason: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  approvedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Admin',
-    default: null
-  },
-  approvedAt: {
-    type: Date,
-    default: null
-  },
-  views: {
-    type: Number,
-    default: 0,
-    min: 0
-  },
-  isNegotiable: {
-    type: Boolean,
-    default: true
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'approved' // Changed from 'pending' to 'approved' for auto-approval
   },
   isActive: {
     type: Boolean,
-    default: true,
-    index: true
+    default: true
   },
-  featured: {
+  isFeatured: {
     type: Boolean,
-    default: false,
-    index: true
+    default: false
+  },
+  viewCount: {
+    type: Number,
+    default: 0
+  },
+  contactCount: {
+    type: Number,
+    default: 0
+  },
+  rejectionReason: {
+    type: String,
+    trim: true
+  },
+  adminNotes: {
+    type: String,
+    trim: true
+  },
+  postedAt: {
+    type: Date,
+    default: Date.now
   },
   expiresAt: {
     type: Date,
-    default: () => new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days
-    index: true
+    default: function() {
+      // Auto-expire after 90 days
+      return new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+    }
+  },
+  boostedUntil: {
+    type: Date,
+    default: null
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Create compound indexes for better query performance

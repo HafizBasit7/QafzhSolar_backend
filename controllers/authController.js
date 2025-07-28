@@ -73,10 +73,18 @@ const verifyOTP = catchAsync(async (req, res, next) => {
 });
 
 // login
-
 const login = async (req, res) => {
   try {
-    const { phone } = req.body;
+    const { phone, password } = req.body;
+
+    // Check if phone and password are provided
+    if (!phone || !password) {
+      return res.status(400).json({
+        status: 400,
+        data: [],
+        message: "Phone number and password are required",
+      });
+    }
 
     const validUser = await User.findOne({ phone });
 
@@ -88,12 +96,33 @@ const login = async (req, res) => {
       });
     }
 
-    // Generate token after successful phone match
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, validUser.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        status: 401,
+        data: [],
+        message: "Invalid password",
+      });
+    }
+
+    // Generate token after successful phone + password match
     const token = generateToken(validUser);
 
     return res.status(200).json({
       status: 200,
-      data: { validUser, token },
+      data: { 
+        user: {
+          id: validUser._id,
+          phone: validUser.phone,
+          name: validUser.name,
+          profileImageUrl: validUser.profileImageUrl,
+          role: validUser.role,
+          isVerified: validUser.isVerified,
+          createdAt: validUser.createdAt
+        },
+        token 
+      },
       message: "Login successful",
     });
   } catch (error) {
