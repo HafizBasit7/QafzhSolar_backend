@@ -33,6 +33,11 @@ if (!passwordRegex.test(password)) {
     // Create new user
     user = new User({ phone ,name,password:hashPassword,profileImageUrl});
     user.generateOTP();
+    console.log('🔐 Creating new user:', {
+      phone: user.phone,
+      isActive: user.isActive,
+      isVerified: user.isVerified
+    });
     await user.save();
   }
 
@@ -88,11 +93,28 @@ const login = async (req, res) => {
 
     const validUser = await User.findOne({ phone });
 
+    console.log('🔐 Login attempt - User lookup:', {
+      phone,
+      userFound: !!validUser,
+      isActive: validUser?.isActive,
+      isVerified: validUser?.isVerified,
+      userId: validUser?._id
+    });
+
     if (!validUser) {
       return res.status(404).json({
         status: 404,
         data: [],
         message: "User not found",
+      });
+    }
+
+    // Check if user account is active
+    if (!validUser.isActive) {
+      return res.status(401).json({
+        status: 401,
+        data: [],
+        message: "User account is inactive. Please contact support.",
       });
     }
 
@@ -108,6 +130,12 @@ const login = async (req, res) => {
 
     // Generate token after successful phone + password match
     const token = generateToken(validUser);
+    
+    console.log('🔐 Login successful - Token generated for user:', {
+      userId: validUser._id,
+      phone: validUser.phone,
+      tokenLength: token.length
+    });
 
     return res.status(200).json({
       status: 200,

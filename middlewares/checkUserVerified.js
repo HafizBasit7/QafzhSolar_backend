@@ -1,13 +1,12 @@
 const User = require('../models/auth');
 
 const checkUserVerified = async (req, res, next) => {
-  console.log(req.body);
+ 
   const productData = req.body;
 
   const { phone } = req.body;
 
-  console.log("Phone:", phone);
-
+  
   if (!phone) {
     return res.status(400).json({ msg: 'phone is required' });
   }

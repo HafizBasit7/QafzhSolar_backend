@@ -69,6 +69,12 @@ const authToken = catchAsync(async (req, res, next) => {
     // }
   } else {
     currentUser = await User.findById(decoded.id).select('+isActive');
+    console.log('🔐 Auth middleware - User lookup:', {
+      userId: decoded.id,
+      userFound: !!currentUser,
+      isActive: currentUser?.isActive,
+      userPhone: currentUser?.phone
+    });
     if (!currentUser || !currentUser.isActive) {
       return next(new AppError('The user account no longer exists or is inactive.', 401));
     }

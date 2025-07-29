@@ -14,7 +14,7 @@ const {
 } = require('../middlewares/validation');
 
 // Rate limiting for auth endpoints
-const authLimiter = authRateLimit(15 * 60 * 1000, 5); // 5 attempts per 15 minutes
+const authLimiter = authRateLimit(15 * 60 * 1000, 60); // 5 attempts per 15 minutes
 
 /**
  * @swagger

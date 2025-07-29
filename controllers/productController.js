@@ -89,20 +89,47 @@ const deleteProduct = async (req, res) => {
     const user = req.user;
     const productId = req.params.id;
 
+    console.log('🔐 deleteProduct - Request:', {
+      userId: user._id.toString(),
+      productId,
+      userPhone: user.phone
+    });
+
     // Ensure product belongs to the current user
     const product = await Product.findOne({ _id: productId, userId: user._id });
 
+    console.log('🔐 deleteProduct - Product lookup:', {
+      productFound: !!product,
+      productOwnerId: product?.userId?.toString(),
+      matches: product?.userId?.toString() === user._id.toString()
+    });
+
     if (!product) {
-      return res.status(404).json({ msg: "Product not found or unauthorized" });
+      return res.status(404).json({ 
+        status: 404,
+        message: "Product not found or you don't have permission to delete this product" 
+      });
     }
 
     await Product.findByIdAndDelete(productId);
 
-    res.status(200).json({ msg: "Product deleted successfully" });
+    console.log('🔐 deleteProduct - Success:', { deletedProductId: productId });
+
+    res.status(200).json({
+      status: 200,
+      message: "Product deleted successfully",
+      data: {
+        deletedProductId: productId
+      }
+    });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Failed to delete product", error: err.message });
+    console.error('🔐 deleteProduct - Error:', err);
+    res.status(500).json({ 
+      status: 500,
+      message: "Failed to delete product", 
+      error: err.message 
+    });
   }
 };
 
@@ -223,23 +250,24 @@ const getProductById = async (req, res) => {
 // controllers/productController.js
 const getUserProducts = async (req, res) => {
   try {
-    const { userId } = req.params;
     const { page = 1, limit = 10, status } = req.query;
+    const authenticatedUser = req.user; // Get user from JWT token
 
-    if (!userId) {
-      return res.status(400).json({
-        status: 400,
-        message: "User ID is required"
-      });
-    }
+    console.log('🔐 getUserProducts - Token user:', {
+      userId: authenticatedUser._id.toString(),
+      userPhone: authenticatedUser.phone,
+      userRole: authenticatedUser.role
+    });
 
     const skip = (page - 1) * limit;
     
-    // Build query
-    const query = { userId };
+    // Build query using authenticated user's ID from token
+    const query = { userId: authenticatedUser._id };
     if (status) {
       query.status = status;
     }
+    
+    console.log('🔐 getUserProducts - Query:', query);
     
     const [products, total] = await Promise.all([
       Product.find(query)
@@ -249,6 +277,12 @@ const getUserProducts = async (req, res) => {
         .populate('userId', 'name phone'),
       Product.countDocuments(query)
     ]);
+
+    console.log('🔐 getUserProducts - Results:', {
+      productsFound: products.length,
+      total,
+      queryUserId: authenticatedUser._id.toString()
+    });
 
     res.status(200).json({
       status: 200,
@@ -260,7 +294,7 @@ const getUserProducts = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error fetching user products:", error);
+    console.error("🔐 getUserProducts - Error:", error);
     res.status(500).json({
       status: 500,
       message: "Internal server error",

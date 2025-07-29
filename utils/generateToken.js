@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const generateToken = (user) => {
   return jwt.sign(
     {
-      _id: user._id,
+      id: user._id, // Changed from _id to id to match auth middleware
       phone: user.phone,
       role: user.role
     },

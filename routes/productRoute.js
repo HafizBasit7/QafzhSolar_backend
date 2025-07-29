@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { checkUserVerified } = require('../middlewares/checkUserVerified')
+const { authToken } = require('../middlewares/auth')
 const productController = require('../controllers/productController')
 
 /**
@@ -733,14 +734,13 @@ router.post('/verfiry-otp', productController.verifyOtp)
  */
 router.get('/browse-products', productController.browseProducts);
 
-router.get('/user-products/:userId', productController.getUserProducts); // Add this
+// Protected routes that require authentication
+router.get('/user-products', authToken, productController.getUserProducts);
 
-// update product
+// update product - requires authentication
+router.patch('/update-product/:id', authToken, productController.updateProduct);
 
-router.patch('/update-product/:id', productController.updateProduct);
-
-// delete product
-
-router.delete('/delete-product/:id', productController.deleteProduct);
+// delete product - requires authentication  
+router.delete('/delete-product/:id', authToken, productController.deleteProduct);
 
 module.exports = router;
