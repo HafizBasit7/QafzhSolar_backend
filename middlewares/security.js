@@ -61,7 +61,8 @@ const corsOptions = {
     
     const allowedOrigins = process.env.ALLOWED_ORIGINS 
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'https://yourdomain.com'];
+      : ['http://localhost:3000', 'http://localhost:5173', 'https://yourdomain.com']
+
     
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);

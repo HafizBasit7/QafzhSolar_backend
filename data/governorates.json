@@ -1,90 +1,90 @@
 [
   {
-    "name": "Abyan",
-    "cities": ["Zinjibar", "Khanfar", "Lawdar", "Modiyah", "Sibah", "Ahwar"]
+    "name": "أبين",
+    "cities": ["زنجبار", "خنفر", "لودر", "مودية", "سيبان", "أحور"]
   },
   {
-    "name": "Aden",
-    "cities": ["Crater", "Mualla", "Tawahi", "Sheikh Othman", "Mansoura", "Dar Saad", "Al Buraiqa", "Khour Maksar"]
+    "name": "عدن",
+    "cities": ["كريتر", "المعلا", "التواهي", "الشيخ عثمان", "المنصورة", "دار سعد", "البريقة", "خور مكسر"]
   },
   {
-    "name": "Al Bayda",
-    "cities": ["Al Bayda", "Radaa", "Mukayris", "Nati", "Sabah", "Wald Rabi", "As Sawmaah", "Az Zahir"]
+    "name": "البيضاء",
+    "cities": ["البيضاء", "رداع", "مكيراس", "ناطع", "سباح", "ولد ربيع", "الصومعة", "الزاهر"]
   },
   {
-    "name": "Al Dhale'e",
-    "cities": ["Al Dhale'e", "Damt", "Qa'tabah", "Al Azariq", "Jahaf", "Al Hussein", "Al Shu'ayb", "Juban"]
+    "name": "الضالع",
+    "cities": ["الضالع", "دمت", "قعطبة", "الأزارق", "جحاف", "الحصين", "الشعيب", "جبن"]
   },
   {
-    "name": "Al Hudaydah",
-    "cities": ["Al Hudaydah", "Bajil", "Al Khawkhah", "Al Luhayyah", "As Salif", "Bayt Al Faqih", "Zabid", "Al Mansuriyah", "At Tuhayat", "Hays", "Al Mighlaf", "Al Jarahi", "Kamaran", "Ad Durayhimi", "Al Qanawis", "Wadi Mawr", "Az Zaydiyah", "At Tuhayta", "Al Khawkhah", "Harf Sufyan", "Ash Shamayatayn", "Al Marawiah", "Bura"]
+    "name": "الحديدة",
+    "cities": ["الحديدة", "باجل", "الخوخة", "اللُحية", "الصليف", "بيت الفقيه", "زبيد", "المنصورية", "التحيتا", "حيس", "المغلاف", "الجراحي", "كمران", "الدريهمي", "القناوص", "وادي مور", "الزيدية", "التحيتا", "الخوخة", "حرف سفيان", "الشمايتين", "المراوعة", "بُرع"]
   },
   {
-    "name": "Al Jawf",
-    "cities": ["Al Hazm", "Khab wa ash Sha'af", "Bart Al Anan", "Al Khalq", "Al Matammah", "Al Ghayl", "Rajuzah", "Az Zahir", "Al Humaydat", "Khabb wa ash Sha'af", "Al Maton"]
+    "name": "الجوف",
+    "cities": ["الحزم", "خب والشعف", "برط العنان", "الخلق", "المطمة", "الغيل", "رجوزة", "الزاهر", "الحميدات", "خب والشعف", "المتون"]
   },
   {
-    "name": "Al Mahrah",
-    "cities": ["Al Ghaydah", "Sayhut", "Qishn", "Al Masilah", "Hawf", "Man'ar", "Shahan", "Haswayn", "Fartak"]
+    "name": "المهرة",
+    "cities": ["الغيضة", "سيحوت", "قشن", "المسيلة", "حوف", "منعر", "شحن", "حصوين", "فرطك"]
   },
   {
-    "name": "Al Mahwit",
-    "cities": ["Al Mahwit", "Al Khabt", "Hufash", "Shibam Kawkaban", "Milhan", "Bani Sa'd", "Al Rujum", "At Tawilah", "Ar Rujum"]
+    "name": "المحويت",
+    "cities": ["المحويت", "الخبت", "حفاش", "شبام كوكبان", "ملحان", "بني سعد", "الرجم", "الطويلة", "الرجم"]
   },
   {
-    "name": "Amanat Al Asimah",
-    "cities": ["Old City", "As Sabaeen", "Ma'een", "At Tahrir", "Ath Thawrah", "Shu'ub", "As Sab'een", "Bani Al Harith", "Al Wahdah", "Azal"]
+    "name": "أمانة العاصمة",
+    "cities": ["المدينة القديمة", "السبعين", "معين", "التحرير", "الثورة", "شعوب", "السبعين", "بني الحارث", "الوحدة", "آزال"]
   },
   {
-    "name": "Amran",
-    "cities": ["Amran", "Raydah", "Harf Sufyan", "Kharif", "Al Qaflah", "As Sudah", "Bani Suraim", "Maswar", "Iyal Surayh", "Jabal Iyal Yazid", "Thulla", "Habur Zulaymah", "As Sawd", "Al Madan", "Suwayr", "Shahid Naji", "Dhi Bin"]
+    "name": "عمران",
+    "cities": ["عمران", "ريدة", "حرف سفيان", "خارف", "القفلة", "السودة", "بني صريم", "مسور", "عيال سريح", "جبل عيال يزيد", "ثلاء", "حبور ظليمة", "السود", "المدان", "سوير", "شهيد ناجي", "ذي بين"]
   },
   {
-    "name": "Dhamar",
-    "cities": ["Dhamar", "Ans", "Al Hada", "Mayfa'ah Ans", "Utmah", "Jahran", "Dawran Ans", "Maghirib Ans", "Al Manar", "Wusab As Safil", "Wusab Al Ali", "Jabal Ash Sharq"]
+    "name": "ذمار",
+    "cities": ["ذمار", "عنس", "الحداء", "ميفعة عنس", "عتمة", "جهران", "دوران عنس", "مغرب عنس", "المنار", "وصاب السافل", "وصاب العالي", "جبل الشرق"]
   },
   {
-    "name": "Hadhramaut",
-    "cities": ["Al Mukalla", "Seiyun", "Ash Shihr", "Tarim", "Shibam", "Wadi Hadhramaut", "Qat'n", "Yabuth", "Hajr As Saiyr", "Do'an", "Huraidhah", "Al Qatn", "Amd", "Rakhyah", "Thamud", "Sayh Al Urr", "Al Abr", "Marib Al Wadi", "Hawrah", "Zamakh wa Manwakh", "Al Wade'a", "Ghayl Ba Wazir", "Hagam", "Mukayras", "Ar Raydah Wa Qusayar", "Ad Dis", "Rummah", "Al Mukalla", "Mukayras", "Al Qa'imah", "As Sawm", "Ar Rawdhah", "Ath Thalooth", "At Tan'im", "Barahut", "Yashbum"]
+    "name": "حضرموت",
+    "cities": ["المكلا", "سيئون", "الشحر", "تريم", "شبام", "وادي حضرموت", "قطن", "يابوث", "حجر الصيعر", "دوعن", "الريدة", "القطن", "عمد", "رخية", "ثمود", "سيح الأر", "العبر", "مأرب الوادي", "حورة", "زمخ ومنوخ", "الوديعة", "غيل باوزير", "هجم", "مكيراس", "الريدة وقصيعر", "الديس", "رممة", "المكلا", "مكيراس", "القائمة", "السوم", "الروضة", "الثلوث", "التنعيم", "برهوت", "يشبم"]
   },
   {
-    "name": "Hajjah",
-    "cities": ["Hajjah", "Abs", "Haradh", "Midi", "Mustaba", "Aflah Al Yaman", "Qafl Shamer", "Najrah", "Bakil Al Mir", "Al Jamimah", "Al Miftah", "Ash Shaghadirah", "Washah", "Kuhlan Ash Sharaf", "Ku'aydinah", "Aflah Ash Shawm", "Bani Qays", "Shaharah", "As Salam", "Opinah", "Hajjah Rural", "Aslam", "Laa", "Al Maghrabah", "Ash Shahil", "Kushar"]
+    "name": "حجة",
+    "cities": ["حجة", "عبس", "حرض", "ميدي", "مستباء", "أفلح اليمن", "قفل شمر", "نجرة", "بكيل المير", "الجميمة", "المفتاح", "الشغادرة", "وشحة", "كُحلان الشرف", "كعيدنة", "أفلح الشام", "بني قيس", "شهارة", "السلام", "أوبينة", "ريف حجة", "أسلم", "لاعة", "المغربة", "الشاهل", "كُشر"]
   },
   {
-    "name": "Ibb",
-    "cities": ["Ibb", "Jibla", "Ba'adan", "Hubaysh", "As Sayyani", "Al Mashannah", "As Sabrah", "Mudhaykhirah", "Al Qafr", "Ya'far", "An Nadirah", "Dhi As Sufal", "Al 'Udayn", "Hazm Al 'Udayn", "Far' Al 'Udayn", "As Saddah", "Ash Sha'ir", "Al Makhader", "Ar Radhmat"]
+    "name": "إب",
+    "cities": ["إب", "جبلة", "بعدان", "حبيش", "السياني", "المشنة", "السبرة", "مذيخرة", "القفر", "يافع", "النادرة", "ذي السفال", "العدين", "حزم العدين", "فرع العدين", "السدة", "الشاعر", "المخادر", "الرُضمة"]
   },
   {
-    "name": "Lahij",
-    "cities": ["Al Houta", "Tubn", "Halimayn", "Radfan", "Yahr", "Al Wade'a", "Al Qabbaytah", "Al Madaribah Wa Al Arah", "Al Milah", "Al Maqatirah", "Tor Al Bahah", "Yafa'a", "Al Had", "As Said"]
+    "name": "لحج",
+    "cities": ["الحوطة", "تبن", "الحليمين", "ردفان", "يهر", "الوديعة", "القبيطة", "المضاربة ورأس العارة", "الملاح", "المقاطرة", "طور الباحة", "يافع", "الحد", "السعيد"]
   },
   {
-    "name": "Ma'rib",
-    "cities": ["Ma'rib", "Sirwah", "Raghwan", "Mahliyah", "Harib", "Al Jubah", "Bidbadah", "Rahabah", "Harib Al Qaramish", "Majzar", "Al Abdiyah", "Medghal", "Jabal Murad", "Rahbah"]
+    "name": "مأرب",
+    "cities": ["مأرب", "صرواح", "رغوان", "ماهلية", "حريب", "الجوبة", "بدبدة", "رحبة", "حريب القراميش", "مجزر", "العبدية", "مدغل", "جبل مراد", "رحبة"]
   },
   {
-    "name": "Raymah",
-    "cities": ["Al Jabin", "Bilad At Ta'am", "Kusmah", "Al Salafiyah", "Mazhar", "As Salafiyah"]
+    "name": "ريمة",
+    "cities": ["الجبين", "بلاد الطعام", "كُسمة", "السلفية", "مُزهر", "السلفية"]
   },
   {
-    "name": "Sa'dah",
-    "cities": ["Sa'dah", "Haydan", "Kitaf wa Al Boqe'e", "Al Dhaher", "Razih", "Al Hashwah", "Majz", "Sahar", "Kutaf", "As Safra'", "Shada'a", "Qatabir", "Baqim", "Munabbih", "Ghamr", "Saqayn", "Al Buqa'", "Al Boqe'e"]
+    "name": "صعدة",
+    "cities": ["صعدة", "حيدان", "كتاف والبقع", "الظاهر", "رازح", "الحشوة", "مجزر", "سحار", "كتاف", "الصفراء", "شدا", "قطابر", "باقم", "منبه", "غمر", "ساقين", "البقع", "البقع"]
   },
   {
-    "name": "Sana'a",
-    "cities": ["Sanhan", "Khawlan", "Bani Matar", "Al Husn", "Jihanah", "Hamdan", "Nihm", "Bani Hashish", "Manakhah", "Hamdaan", "Sa'fan", "Arhab", "At Tyal", "Bilad Ar Rus", "Al Haymah Al Kharijiyah", "Bani Dhabyan"]
+    "name": "صنعاء",
+    "cities": ["سنحان", "خولان", "بني مطر", "الحصن", "جحانة", "همدان", "نهم", "بني حشيش", "مناخة", "همدان", "صعفان", "أرحب", "الطيال", "بلاد الروس", "الحيمة الخارجية", "بني ضبيان"]
   },
   {
-    "name": "Shabwah",
-    "cities": ["Ataq", "Ar Rawdah", "Mayfa'a", "Nisab", "Merkhah As Sufla", "Merkhah Al Ulya", "Hatib", "Usaylan", "Rudum", "Jardan", "Dhar", "Bayhan", "Ain", "As Said", "Arma", "Al Talh", "Habban"]
+    "name": "شبوة",
+    "cities": ["عتق", "الروضة", "ميفعة", "نصاب", "مرخة السفلى", "مرخة العليا", "حطيب", "عسيلان", "رضوم", "جردان", "ضَهر", "بيحان", "عين", "السعيد", "عرمة", "الطلح", "حبّان"]
   },
   {
-    "name": "Socotra",
-    "cities": ["Hadibo", "Mumi", "Qalansiyah", "Abd al Kuri"]
+    "name": "سقطرى",
+    "cities": ["حديبو", "مومي", "قلنسية", "عبد الكوري"]
   },
   {
-    "name": "Taiz",
-    "cities": ["Taiz", "Al Turbah", "Sabir Al Mawadim", "Ash Shamayatayn", "Dimnat Khadir", "Al Wazi'iyah", "Shar'ab Ar Ronnah", "Shar'ab As Salam", "Jabal Habashy", "Al Mudhaffar", "Al Qahirah", "Salh", "Maqbanah", "Al Misrakh", "Mawza'", "As Silw", "Sama'", "Al Ma'afer", "Al Makha", "Dhubab", "Barah", "Hayfan", "Mawiyah", "Al Mawasit"]
+    "name": "تعز",
+    "cities": ["تعز", "التربة", "صبر الموادم", "الشمايتين", "دمنت خدير", "الوازعية", "شرعب الرونة", "شرعب السلام", "جبل حبشي", "المظفر", "القاهرة", "صالة", "مقبنة", "المسراخ", "موزع", "الصلو", "سامع", "المعافر", "المخا", "ذباب", "برة", "حيفان", "ماوية", "المواسط"]
   }
 ]

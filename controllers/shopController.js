@@ -25,6 +25,7 @@ const addShop = async (req, res) => {
             logoUrl,
             images,
             notes,
+            isVerified,
         } = req.body;
         const addedBy = req.user?._id;  //  using middleware 
         console.log("addedBy", addedBy);
@@ -67,7 +68,7 @@ const addShop = async (req, res) => {
             images,
             notes,
             addedBy,
-            isVerified: true, // Admin adds = verified
+            isVerified, // Admin adds = verified
             verificationStatus: 'verified'
         });
 

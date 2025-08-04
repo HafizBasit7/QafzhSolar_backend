@@ -86,10 +86,10 @@ const productSchema = new mongoose.Schema({
       message: 'Image must be a valid URL'
     }
   }],
-  specifications: {
-    type: Map,
-    of: String
-  },
+  // specifications: {
+  //   type: Map,
+  //   of: String
+  // },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -98,7 +98,7 @@ const productSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected'],
-    default: 'approved' // Changed from 'pending' to 'approved' for auto-approval
+    default: 'pending' // Changed from 'pending' to 'approved' for auto-approval
   },
   isActive: {
     type: Boolean,

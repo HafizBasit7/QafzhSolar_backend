@@ -140,14 +140,14 @@ const browseProducts = async (req, res) => {
     const page = parseInt(req.query.page) || 1;   // Default page = 1
     const limit = parseInt(req.query.limit) || 10; // Default limit = 10
 
-    const filter = { status: 'approved' }; // Only approved listings
+    // const filter = { status: 'approved' }; // Only approved listings
 
-    const products = await Product.find(filter)
+    const products = await Product.find()
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
-    const total = await Product.countDocuments(filter);
+    const total = await Product.countDocuments();
 
     res.json({
       success: true,
