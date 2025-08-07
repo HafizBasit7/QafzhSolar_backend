@@ -17,8 +17,8 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Product type is required'],
     enum: {
-      values: ['Inverter', 'Panel', 'Battery', 'Accessory', 'Cable', 'Controller', 'Monitor', 'Other'],
-      message: 'Product type must be one of: Inverter, Panel, Battery, Accessory, Cable, Controller, Monitor, Other'
+      values: ['Inverter', 'Panel', 'Battery', 'Accessory', 'Panel bases', 'Other'],
+      message: 'Product type must be one of: Inverter, Panel, Battery, Accessory, Panel bases, Other'
     }
   },
   condition: {
@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema({
   },
   currency: {
     type: String,
-    enum: ['YER', 'USD', 'SAR', 'EUR'],
+    enum: ['YER', 'USD', 'SAR', 'YER_SOUTH'],
     default: 'YER'
   },
   isNegotiable: {
@@ -98,7 +98,7 @@ const productSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected'],
-    default: 'pending' // Changed from 'pending' to 'approved' for auto-approval
+    default: 'approved' // Changed from 'pending' to 'approved' for auto-approval
   },
   isActive: {
     type: Boolean,
