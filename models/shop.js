@@ -18,18 +18,13 @@ const shopSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Phone number is required'],
         trim: true,
-        match: [/^[0-9+()-\s]{10,15}$/, 'Please enter a valid phone number']
+        
     },
     whatsappPhone: {
         type: String,
         default: '',
         trim: true,
-        validate: {
-            validator: function(v) {
-                return !v || /^[0-9+()-\s]{10,15}$/.test(v);
-            },
-            message: 'Please enter a valid WhatsApp phone number'
-        }
+        
     },
     email: {
         type: String,

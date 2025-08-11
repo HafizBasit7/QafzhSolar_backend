@@ -12,7 +12,7 @@ const engineerSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Phone number is required'],
         trim: true,
-        match: [/^[0-9+()-\s]{10,15}$/, 'Please enter a valid phone number']
+        
     },
     whatsappPhone: {
         type: String,

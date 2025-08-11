@@ -2,7 +2,7 @@ const { AppError } = require('./errorHandler');
 
 // Validation helper functions
 const isValidPhone = (phone) => {
-  return /^[0-9+()-\s]{10,15}$/.test(phone);
+  return /^[0-9+()-\s]{8,15}$/.test(phone);
 };
 
 const isValidEmail = (email) => {
@@ -25,7 +25,9 @@ const validateUserRegistration = (req, res, next) => {
     return next(new AppError('Phone number is required', 400));
   }
 
-  if (!isValidPhone(phone)) {
+  if (phone.length<8) {
+    console.log("tet");
+    
     return next(new AppError('Please provide a valid phone number', 400));
   }
 
@@ -41,7 +43,7 @@ const validateOTPVerification = (req, res, next) => {
     return next(new AppError('Phone number and OTP are required', 400));
   }
 
-  if (!isValidPhone(phone)) {
+  if (phone.length<8) {
     return next(new AppError('Please provide a valid phone number', 400));
   }
 
@@ -99,7 +101,7 @@ const validateProductCreation = (req, res, next) => {
     return next(new AppError('Price must be between 0 and 999,999,999', 400));
   }
 
-  if (!phone || !isValidPhone(phone)) {
+  if (!phone || phone.length<8) {
     return next(new AppError('Please provide a valid phone number', 400));
   }
 
@@ -140,7 +142,7 @@ const validateEngineerCreation = (req, res, next) => {
     return next(new AppError('Engineer name must be between 2 and 100 characters', 400));
   }
 
-  if (!phone || !isValidPhone(phone)) {
+  if (!phone || phone.length<8) {
     return next(new AppError('Please provide a valid phone number', 400));
   }
 
@@ -192,7 +194,7 @@ const validateShopCreation = (req, res, next) => {
     return next(new AppError('Shop name must be between 2 and 200 characters', 400));
   }
 
-  if (!phone || !isValidPhone(phone)) {
+  if (!phone || phone.length<8) {
     return next(new AppError('Please provide a valid phone number', 400));
   }
 
